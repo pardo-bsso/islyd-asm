@@ -16,6 +16,8 @@ class Parser:
 
     def parse_line(self, line):
         line = line.strip()
+        if not line:
+            return None
         for instruction in ALL_INSTRUCTIONS:
             if is_instruction(line, instruction):
                 parsed_instruction = instruction.from_data(line, self.current_address)
