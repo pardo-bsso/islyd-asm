@@ -77,6 +77,32 @@ class SimpleInstruction(BaseInstruction):
 
 
 @attr.s
+class MultiplePatternInstruction(SimpleInstruction):
+    """ Instruction that has more than one pattern (for example, accepts both literals and identifiers) """
+    pattern = attr.ib(factory=list)
+
+    @classmethod
+    def from_data(cls, line, address=None):
+        matches = cls.can_be(line)
+        if not matches:
+            raise ValueError('Provided line of data "{}" is not valid for {}'.format(line, cls.__qualname__))
+        else:
+            instance = cls(address=address)
+            return instance.parse(matches, line, address)
+
+    @classmethod
+    def can_be(cls, line):
+        if not cls.pattern:
+            raise NotImplementedError('Instruction pattern list is not defined')
+
+        for pattern in cls.pattern:
+            matches = pattern.fullmatch(line)
+            if matches:
+                return matches
+        return None
+
+
+@attr.s
 class UnknownInstruction(BaseInstruction):
     size = attr.ib(default=0)
     line = attr.ib(default='')
