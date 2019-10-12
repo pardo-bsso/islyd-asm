@@ -134,6 +134,29 @@ class MultipleArgumentsInstruction(SimpleInstruction):
 
 
 @attr.s
+class BitManipulationInstruction(MultipleArgumentsInstruction):
+    def emit_opcode(self, symbol_table=None):
+        self.resolve_symbols(symbol_table)
+        operand = 0
+        resolved_symbol_name = self.arguments.get('identifier', None)
+        resolved_symbol = self.arguments.get(resolved_symbol_name, None)
+
+        if self.value is not None:
+            operand = int(self.value)
+        elif resolved_symbol is not None:
+            operand = int(resolved_symbol.value)
+
+        if operand not in range(8):
+            raise ValueError('Provided bit number "{}" is not valid for {}'.format(operand, self.__class__.__qualname__))
+
+        operand = (operand * 32) & 0xE0
+
+        full_opcode = list(self.opcode)
+        full_opcode.extend([operand])
+        return full_opcode
+
+
+@attr.s
 class UnknownInstruction(BaseInstruction):
     size = attr.ib(default=0)
     line = attr.ib(default='')
