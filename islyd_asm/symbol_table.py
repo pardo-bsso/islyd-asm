@@ -30,9 +30,12 @@ class SymbolTable:
                 pass
 
     def add_dependency(self, identifier):
-        self.dependencies.add(identifier)
+        identifier = identifier.strip()
+        if identifier not in self.symbols:
+            self.dependencies.add(identifier)
 
     def get(self, identifier):
+        identifier = identifier.strip()
         try:
             return self.symbols[identifier]
         except KeyError:
