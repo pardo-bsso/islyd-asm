@@ -18,6 +18,7 @@ class LineInfo:
     line_number = attr.ib(default=0)
     line = attr.ib(default='')
     instruction = attr.ib(default=None)
+    opcode = attr.ib(factory=list)
 
 
 class Assembler:
@@ -58,9 +59,19 @@ source is an iterable of lines.
 
         return self
 
+    def compile(self):
+        """ Updates each parsed line with the corresponding opcode after resolving symbol dependencies """
+        for line_info in self.parsed_lines:
+            line_info.opcode = line_info.instruction.emit_opcode(self.symbol_table)
+
+        return self
+
 
 if __name__ == '__main__':
     import fileinput
 
     assembler = Assembler()
-    assembler.parse(fileinput.input())
+    assembler.parse(fileinput.input()).compile()
+
+    for line in assembler.parsed_lines:
+        print(line)
