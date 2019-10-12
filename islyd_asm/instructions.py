@@ -491,6 +491,46 @@ class XNOR(MultipleArgumentsInstruction):
 
 @register
 @attr.s
+class ADD(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*ADD\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*ADD\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x07, 0x08])
+
+
+@register
+@attr.s
+class ADDC(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*ADDC\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*ADDC\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x07, 0x09])
+
+
+@register
+@attr.s
+class SUB(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*SUB\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*SUB\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x07, 0x0A])
+
+
+@register
+@attr.s
+class SUBC(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*SUBC\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*SUBC\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x07, 0x0B])
+
+
+@register
+@attr.s
 class BIT_SET_A(BitManipulationInstruction):
     pattern = [
         re.compile(r'\s*BIT SET\s+(?P<value>[0-7])\s*,\s*PORTA', re.I),
