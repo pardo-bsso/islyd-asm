@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import re
+
 import attr
 from .instructions import ALL_INSTRUCTIONS, is_instruction, UnknownInstruction
 
@@ -16,8 +18,17 @@ class Parser:
 
     def parse_line(self, line):
         line = line.strip()
+
         if not line:
             return None
+
+        if line.startswith(';'):   # Comments
+            return None
+
+        # remove comments and extra whitespace
+        line = re.split(r';[\w\s]*$', line)[0]
+        line = line.strip()
+
         for instruction in ALL_INSTRUCTIONS:
             if is_instruction(line, instruction):
                 parsed_instruction = instruction.from_data(line, self.current_address)
