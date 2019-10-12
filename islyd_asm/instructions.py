@@ -120,14 +120,17 @@ class MultipleArgumentsInstruction(SimpleInstruction):
     def emit_opcode(self, symbol_table=None):
         self.resolve_symbols(symbol_table)
         operand = [0, 0]
-        resolved_symbol = self.arguments.get('identifier', None)
+        resolved_symbol_name = self.arguments.get('identifier', None)
+        resolved_symbol = self.arguments.get(resolved_symbol_name, None)
 
         if self.value is not None:
             operand = parse_hex_literal(self.value)
         elif resolved_symbol is not None:
-            operand = parse_hex_literal(resolved_symbol)
+            operand = parse_hex_literal(str(resolved_symbol.value))
 
-        return list(self.opcode).extend(operand)
+        full_opcode = list(self.opcode)
+        full_opcode.extend(operand)
+        return full_opcode
 
 
 @attr.s
