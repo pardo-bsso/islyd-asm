@@ -241,3 +241,24 @@ class DEC_PORTA(SimpleInstruction):
 class LDI_RXH_PORTB(SimpleInstruction):
     pattern = re.compile(r'\s*LDI RXH PORTB\s*', re.I)
     opcode = attr.ib(default=[0x0D, 0x00])
+
+
+@register
+@attr.s
+class INC_IX(SimpleInstruction):
+    pattern = re.compile(r'\s*INC IX\s*', re.I)
+    opcode = attr.ib(default=[0x15, 0x00])
+
+
+@register
+@attr.s
+class LDD_RX_IX(SimpleInstruction):
+    pattern = re.compile(r'\s*LDD RX,\s*IX\s*', re.I)
+    opcode = attr.ib(default=[0x16, 0x00])
+
+
+@register
+@attr.s
+class STR_RX_IX(SimpleInstruction):
+    pattern = re.compile(r'\s*STR RX,\s*IX\s*', re.I)
+    opcode = attr.ib(default=[0x17, 0x00])
