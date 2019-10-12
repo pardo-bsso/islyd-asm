@@ -56,7 +56,7 @@ class SimpleInstruction(BaseInstruction):
         if not matches:
             raise ValueError('Provided line of data "{}" is not valid for {}'.format(line, cls.__qualname__))
         else:
-            instance = cls()
+            instance = cls(address=address)
             return instance.parse(matches, line, address)
 
     def parse(self, matches, line=None, address=None):
@@ -83,7 +83,6 @@ class LABEL(SimpleInstruction):
     pattern = re.compile(r'(?P<label>\w+):$', re.I)
 
     def parse(self, matches, line=None, address=None):
-        self.address = address
         identifier = matches.group('label')
         label = Symbol(identifier=identifier, value=self.address, address=self.address)
         self.provided_symbols = [label]
