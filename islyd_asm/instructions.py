@@ -76,6 +76,22 @@ class SimpleInstruction(BaseInstruction):
         return self.opcode
 
 
+@attr.s
+class UnknownInstruction(BaseInstruction):
+    size = attr.ib(default=0)
+    line = attr.ib(default='')
+
+    @classmethod
+    def from_data(cls, line=None, address=None):
+        instance = cls(line=line, address=address)
+        return instance
+
+    # XXX FIXME: later test that this is really unknown?
+    @classmethod
+    def can_be(cls, line=None):
+        return True
+
+
 @register
 @attr.s
 class LABEL(SimpleInstruction):
