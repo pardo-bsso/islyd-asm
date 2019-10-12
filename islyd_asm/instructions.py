@@ -293,3 +293,63 @@ class LDD_RX_IX(SimpleInstruction):
 class STR_RX_IX(SimpleInstruction):
     pattern = re.compile(r'\s*STR RX,\s*IX\s*', re.I)
     opcode = attr.ib(default=[0x17, 0x00])
+
+
+@register
+@attr.s
+class LDI_RX(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*LDI RX,\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*LDI RX,\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x02, 0x00])
+
+
+@register
+@attr.s
+class LDD_RX(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*LDD RX,\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*LDD RX,\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x05, 0x00])
+
+
+@register
+@attr.s
+class STR_RX(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*STR RX,\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*STR RX,\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x06, 0x00])
+
+
+@register
+@attr.s
+class JMP_PC(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*JMP PC,\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*JMP PC,\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x10, 0x00])
+
+
+@register
+@attr.s
+class JMP_PC_IF_Z(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*JMP PC IF Z,\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*JMP PC IF Z,\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x11, 0x00])
+
+
+@register
+@attr.s
+class JMP_PC_IF_C(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*JMP PC IF C,\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*JMP PC IF C,\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x12, 0x00])
