@@ -109,109 +109,109 @@ class LABEL(SimpleInstruction):
 @attr.s
 class RST(SimpleInstruction):
     pattern = re.compile(r'\s*RST\s*', re.I)
-    opcode = [0x80, 0x00]
+    opcode = attr.ib(default=[0x80, 0x00])
 
 
 @register
 @attr.s
 class CLR_RX(SimpleInstruction):
     pattern = re.compile(r'\s*CLR RX\s*', re.I)
-    opcode = [0x00, 0x00]
+    opcode = attr.ib(default=[0x00, 0x00])
 
 
 @register
 @attr.s
 class INC_RX(SimpleInstruction):
     pattern = re.compile(r'\s*INC RX\s*', re.I)
-    opcode = [0x01, 0x00]
+    opcode = attr.ib(default=[0x01, 0x00])
 
 
 @register
 @attr.s
 class DEC_RX(SimpleInstruction):
     pattern = re.compile(r'\s*DEC RX\s*', re.I)
-    opcode = [0x03, 0x00]
+    opcode = attr.ib(default=[0x03, 0x00])
 
 
 @register
 @attr.s
 class NOP(SimpleInstruction):
     pattern = re.compile(r'\s*NOP\s*', re.I)
-    opcode = [0x04, 0x00]
+    opcode = attr.ib(default=[0x04, 0x00])
 
 
 @register
 @attr.s
 class NOT(SimpleInstruction):
     pattern = re.compile(r'\s*NOT\s*', re.I)
-    opcode = [0x07, 0x11]
+    opcode = attr.ib(default=[0x07, 0x11])
 
 
 @register
 @attr.s
 class SWAP(SimpleInstruction):
     pattern = re.compile(r'\s*SWAP RX\s*', re.I)
-    opcode = [0x07, 0x12]
+    opcode = attr.ib(default=[0x07, 0x12])
 
 
 @register
 @attr.s
 class SLA(SimpleInstruction):
     pattern = re.compile(r'\s*SLA RX\s*', re.I)
-    opcode = [0x07, 0x13]
+    opcode = attr.ib(default=[0x07, 0x13])
 
 
 @register
 @attr.s
 class SRA(SimpleInstruction):
     pattern = re.compile(r'\s*SRA RX\s*', re.I)
-    opcode = [0x07, 0x14]
+    opcode = attr.ib(default=[0x07, 0x14])
 
 
 @register
 @attr.s
 class SLL(SimpleInstruction):
     pattern = re.compile(r'\s*SLL RX\s*', re.I)
-    opcode = [0x07, 0x15]
+    opcode = attr.ib(default=[0x07, 0x15])
 
 
 @register
 @attr.s
 class SLR(SimpleInstruction):
     pattern = re.compile(r'\s*SLR RX\s*', re.I)
-    opcode = [0x07, 0x16]
+    opcode = attr.ib(default=[0x07, 0x16])
 
 
 @register
 @attr.s
 class DEC_RX_IF_NOT_ZERO(SimpleInstruction):
     pattern = re.compile(r'\s*DEC RX IF NOT ZERO\s*', re.I)
-    opcode = [0x13, 0x00]
+    opcode = attr.ib(default=[0x13, 0x00])
 
 
 @register
 @attr.s
 class STR_RXL_PORTA(SimpleInstruction):
     pattern = re.compile(r'\s*STR RXL PORTA\s*', re.I)
-    opcode = [0x08, 0x00]
+    opcode = attr.ib(default=[0x08, 0x00])
 
 
 @register
 @attr.s
 class INC_PORTA(SimpleInstruction):
     pattern = re.compile(r'\s*INC PORTA\s*', re.I)
-    opcode = [0x0B, 0x00]
+    opcode = attr.ib(default=[0x0B, 0x00])
 
 
 @register
 @attr.s
 class DEC_PORTA(SimpleInstruction):
     pattern = re.compile(r'\s*DEC PORTA\s*', re.I)
-    opcode = [0x0C, 0x00]
+    opcode = attr.ib(default=[0x0C, 0x00])
 
 
 @register
 @attr.s
 class LDI_RXH_PORTB(SimpleInstruction):
     pattern = re.compile(r'\s*LDI RXH PORTB\s*', re.I)
-    opcode = [0x0D, 0x00]
+    opcode = attr.ib(default=[0x0D, 0x00])
