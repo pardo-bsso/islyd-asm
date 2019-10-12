@@ -377,3 +377,63 @@ class JMP_PC_IF_C(MultipleArgumentsInstruction):
         re.compile(r'\s*JMP PC IF C,\s+(?P<identifier>\w{3,})\s*', re.I)
     ]
     opcode = attr.ib(default=[0x12, 0x00])
+
+
+@register
+@attr.s
+class AND(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*AND\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*AND\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x07, 0x18])
+
+
+@register
+@attr.s
+class NAND(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*NAND\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*NAND\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x07, 0x19])
+
+
+@register
+@attr.s
+class OR(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*OR\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*OR\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x07, 0x1A])
+
+
+@register
+@attr.s
+class NOR(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*NOR\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*NOR\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x07, 0x1B])
+
+
+@register
+@attr.s
+class XOR(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*XOR\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*XOR\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x07, 0x1C])
+
+
+@register
+@attr.s
+class XNOR(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*XNOR\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*XNOR\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x07, 0x1D])
