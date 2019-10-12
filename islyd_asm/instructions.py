@@ -297,6 +297,16 @@ class STR_RX_IX(SimpleInstruction):
 
 @register
 @attr.s
+class LDI_IX(MultipleArgumentsInstruction):
+    pattern = [
+        re.compile(r'\s*LDI IX,\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
+        re.compile(r'\s*LDI IX,\s+(?P<identifier>\w{3,})\s*', re.I)
+    ]
+    opcode = attr.ib(default=[0x14, 0x00])
+
+
+@register
+@attr.s
 class LDI_RX(MultipleArgumentsInstruction):
     pattern = [
         re.compile(r'\s*LDI RX,\s+(?P<value>\$[\dA-F]{1,4})\s*', re.I),
