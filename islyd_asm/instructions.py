@@ -164,6 +164,20 @@ class LABEL(SimpleInstruction):
 
 @register
 @attr.s
+class EQU(SimpleInstruction):
+    size = attr.ib(default=0)
+    pattern = re.compile(r'(?P<label>\w{3,})\s+EQU\s+(?P<value>[\w$]+)$', re.I)
+
+    def parse(self, matches, line=None, address=None):
+        identifier = matches.group('label')
+        value = matches.group('value')
+        sym = Symbol(identifier=identifier, value=value, address=self.address)
+        self.provided_symbols = [sym]
+        return self
+
+
+@register
+@attr.s
 class RST(SimpleInstruction):
     pattern = re.compile(r'\s*RST\s*', re.I)
     opcode = attr.ib(default=[0x80, 0x00])
