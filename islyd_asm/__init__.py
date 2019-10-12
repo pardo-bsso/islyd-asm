@@ -1,2 +1,2 @@
 __version__ = '0.0.2'
-__all__ = ['instructions', 'parser']
+__all__ = ['instructions', 'parser', 'symbol_table']
