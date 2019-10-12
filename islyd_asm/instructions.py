@@ -76,19 +76,21 @@ class SimpleInstruction(BaseInstruction):
         return self.opcode
 
 
-@attr.s
-class MultiplePatternInstruction(SimpleInstruction):
-    """ Instruction that has more than one pattern (for example, accepts both literals and identifiers) """
-    pattern = attr.ib(factory=list)
+def parse_hex_literal(literal):
+    """ Given an hex literal like $1234 returns [0x12, 0x34] """
+    parsed = int(literal.strip().replace('$', ''), 16)
+    hi = (parsed >> 8) & 0xFF
+    lo = parsed & 0xFF
+    return [hi, lo]
 
-    @classmethod
-    def from_data(cls, line, address=None):
-        matches = cls.can_be(line)
-        if not matches:
-            raise ValueError('Provided line of data "{}" is not valid for {}'.format(line, cls.__qualname__))
-        else:
-            instance = cls(address=address)
-            return instance.parse(matches, line, address)
+
+@attr.s
+class MultipleArgumentsInstruction(SimpleInstruction):
+    """ Instruction that has more than one pattern and argument (for example, accepts both literals and identifiers) """
+    size = attr.ib(default=4)
+    pattern = attr.ib(factory=list)
+    arguments = attr.ib(factory=dict)
+    value = None
 
     @classmethod
     def can_be(cls, line):
@@ -100,6 +102,32 @@ class MultiplePatternInstruction(SimpleInstruction):
             if matches:
                 return matches
         return None
+
+    def parse(self, matches, line=None, address=None):
+        arguments = self.arguments = matches.groupdict()
+        value = arguments.get('value', None)
+        identifier = arguments.get('identifier', None)
+        self.value = value
+        if identifier is not None:
+            self.required_symbols = [identifier]
+
+        return self
+
+    def resolve_symbols(self, symbol_table):
+        for identifier in self.required_symbols:
+            self.arguments[identifier] = symbol_table.get(identifier)
+
+    def emit_opcode(self, symbol_table=None):
+        self.resolve_symbols(symbol_table)
+        operand = [0, 0]
+        resolved_symbol = self.arguments.get('identifier', None)
+
+        if self.value is not None:
+            operand = parse_hex_literal(self.value)
+        elif resolved_symbol is not None:
+            operand = parse_hex_literal(resolved_symbol)
+
+        return list(self.opcode).extend(operand)
 
 
 @attr.s
