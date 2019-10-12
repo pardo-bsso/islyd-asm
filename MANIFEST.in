@@ -1,0 +1,3 @@
+recursive-include islyd_asm *
+include README.md
+include LICENSE.txt
