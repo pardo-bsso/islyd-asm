@@ -6,6 +6,10 @@ class SymbolRedefinedError(Exception):
     pass
 
 
+class UndefinedSymbol(Exception):
+    pass
+
+
 @attr.s
 class SymbolTable:
     # identifier -> Symbol
@@ -27,3 +31,9 @@ class SymbolTable:
 
     def add_dependency(self, identifier):
         self.dependencies.add(identifier)
+
+    def get(self, identifier):
+        try:
+            return self.symbols[identifier]
+        except KeyError:
+            raise UndefinedSymbol(identifier)
