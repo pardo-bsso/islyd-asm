@@ -460,3 +460,23 @@ class XNOR(MultipleArgumentsInstruction):
         re.compile(r'\s*XNOR\s+(?P<identifier>\w{3,})\s*', re.I)
     ]
     opcode = attr.ib(default=[0x07, 0x1D])
+
+
+@register
+@attr.s
+class BIT_SET_A(BitManipulationInstruction):
+    pattern = [
+        re.compile(r'\s*BIT SET\s+(?P<value>[0-7])\s*,\s*PORTA', re.I),
+        re.compile(r'\s*BIT SET\s+(?P<identifier>\w{3,})\s*,\s*PORTA', re.I)
+    ]
+    opcode = attr.ib(default=[0x09])
+
+
+@register
+@attr.s
+class BIT_CLR_A(BitManipulationInstruction):
+    pattern = [
+        re.compile(r'\s*BIT CLR\s+(?P<value>[0-7])\s*,\s*PORTA', re.I),
+        re.compile(r'\s*BIT CLR\s+(?P<identifier>\w{3,})\s*,\s*PORTA', re.I)
+    ]
+    opcode = attr.ib(default=[0x0A])
