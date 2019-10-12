@@ -157,6 +157,33 @@ class BitManipulationInstruction(MultipleArgumentsInstruction):
 
 
 @attr.s
+class BitTestInstruction(BitManipulationInstruction):
+    def parse(self, matches, line=None, address=None):
+        super().parse(matches, line, address)
+        target_identifier = self.arguments.get('jump_target_identifier', None)
+        if target_identifier is not None:
+            self.required_symbols.append(target_identifier)
+
+        return self
+
+    def emit_opcode(self, symbol_table=None):
+        opcode = super().emit_opcode(symbol_table)
+        jump_target = [0, 0]
+
+        target = self.arguments.get('jump_target', None)
+        target_symbol_name = self.arguments.get('jump_target_identifier', None)
+        target_symbol = self.arguments.get(target_symbol_name, None)
+
+        if target is not None:
+            jump_target = parse_hex_literal(str(target))
+        elif target_symbol is not None:
+            jump_target = parse_hex_literal(str(target_symbol.value))
+
+        opcode.extend(jump_target)
+        return opcode
+
+
+@attr.s
 class UnknownInstruction(BaseInstruction):
     size = attr.ib(default=0)
     line = attr.ib(default='')
@@ -480,3 +507,27 @@ class BIT_CLR_A(BitManipulationInstruction):
         re.compile(r'\s*BIT CLR\s+(?P<identifier>\w{3,})\s*,\s*PORTA', re.I)
     ]
     opcode = attr.ib(default=[0x0A])
+
+
+@register
+@attr.s
+class BIT_TEST_CLR_B(BitTestInstruction):
+    pattern = [
+        re.compile(r'\s*BTJC\s+(?P<value>[0-7])\s*,\s*(?P<jump_target>\$[\dA-F]{1,4})\s*,\s*PORTB', re.I),
+        re.compile(r'\s*BTJC\s+(?P<value>[0-7])\s*,\s*(?P<jump_target_identifier>\w{3,})\s*,\s*PORTB', re.I),
+        re.compile(r'\s*BTJC\s+(?P<identifier>\w{3,})\s*,\s*(?P<jump_target>\$[\dA-F]{1,4})\s*,\s*PORTB', re.I),
+        re.compile(r'\s*BTJC\s+(?P<identifier>\w{3,})\s*,\s*(?P<jump_target_identifier>\w{3,})\s*,\s*PORTB', re.I)
+    ]
+    opcode = attr.ib(default=[0x0E])
+
+
+@register
+@attr.s
+class BIT_TEST_SET_B(BitTestInstruction):
+    pattern = [
+        re.compile(r'\s*BTJS\s+(?P<value>[0-7])\s*,\s*(?P<jump_target>\$[\dA-F]{1,4})\s*,\s*PORTB', re.I),
+        re.compile(r'\s*BTJS\s+(?P<value>[0-7])\s*,\s*(?P<jump_target_identifier>\w{3,})\s*,\s*PORTB', re.I),
+        re.compile(r'\s*BTJS\s+(?P<identifier>\w{3,})\s*,\s*(?P<jump_target>\$[\dA-F]{1,4})\s*,\s*PORTB', re.I),
+        re.compile(r'\s*BTJS\s+(?P<identifier>\w{3,})\s*,\s*(?P<jump_target_identifier>\w{3,})\s*,\s*PORTB', re.I)
+    ]
+    opcode = attr.ib(default=[0x0F])
