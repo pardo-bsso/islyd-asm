@@ -62,7 +62,11 @@ source is an iterable of lines.
     def compile(self):
         """ Updates each parsed line with the corresponding opcode after resolving symbol dependencies """
         for line_info in self.parsed_lines:
-            line_info.opcode = line_info.instruction.emit_opcode(self.symbol_table)
+            try:
+                line_info.opcode = line_info.instruction.emit_opcode(self.symbol_table)
+            except Exception as e:
+                msg = """{exception}\nIn line {line_number}:\n{line}""".format(exception=e, **attr.asdict(line_info))
+                raise SyntaxError(msg) from None
 
         return self
 
