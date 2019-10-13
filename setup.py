@@ -24,6 +24,11 @@ setup(
     url='http://github.com/telescopio-montemayor/islyd-asm',
     author='Adrián Pardini',
     author_email='github@tangopardo.com.ar',
+    entry_points={
+        'console_scripts': [
+            'islyd-asm=islyd_asm.main:run'
+        ]
+    },
     classifiers=[
         'Environment :: Console',
         'Development Status :: 2 - Pre-Alpha',
