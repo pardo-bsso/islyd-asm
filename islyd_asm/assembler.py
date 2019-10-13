@@ -7,6 +7,7 @@ import attr
 from .instructions import UnknownInstruction
 from .parser import Parser
 from .symbol_table import SymbolTable, UndefinedSymbol, SymbolRedefinedError
+from .ihex import IHEX_EOF, line_info_to_ihex
 
 
 class SyntaxError(Exception):
@@ -70,6 +71,16 @@ source is an iterable of lines.
 
         return self
 
+    def to_ihex(self):
+        records = []
+        for line in self.parsed_lines:
+            hexrecord = line_info_to_ihex(line)
+            if hexrecord is not None:
+                records.append(hexrecord)
+        records.append(IHEX_EOF)
+
+        return '\n'.join(records)
+
 
 if __name__ == '__main__':
     import fileinput
@@ -79,3 +90,5 @@ if __name__ == '__main__':
 
     for line in assembler.parsed_lines:
         print(line)
+
+    print(assembler.to_ihex())
