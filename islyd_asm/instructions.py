@@ -1,6 +1,8 @@
 import re
 import attr
 
+from .utils import int_to_split_hex
+
 ALL_INSTRUCTIONS = []
 
 
@@ -79,8 +81,7 @@ class SimpleInstruction(BaseInstruction):
 def parse_hex_literal(literal):
     """ Given an hex literal like $1234 returns [0x12, 0x34] """
     parsed = int(literal.strip().replace('$', ''), 16)
-    hi = (parsed >> 8) & 0xFF
-    lo = parsed & 0xFF
+    hi, lo = int_to_split_hex(parsed)
     return [hi, lo]
 
 
