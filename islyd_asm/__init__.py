@@ -1,2 +1,2 @@
-__version__ = '0.0.6'
+__version__ = '0.0.7'
 __all__ = ['instructions', 'parser', 'symbol_table', 'assembler', 'utils', 'ihex']
