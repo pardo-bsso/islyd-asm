@@ -24,7 +24,7 @@ class Symbol:
 
 @attr.s
 class BaseInstruction:
-    size = attr.ib(default=2)
+    size = attr.ib(default=1)
     address = attr.ib(default=None)
     provided_symbols = attr.ib(factory=list)    # list of Symbol() instances that this instruction provides (say, a label or EQU)
     required_symbols = attr.ib(factory=list)    # list of symbol names that this instruction requires
@@ -88,7 +88,7 @@ def parse_hex_literal(literal):
 @attr.s
 class MultipleArgumentsInstruction(SimpleInstruction):
     """ Instruction that has more than one pattern and argument (for example, accepts both literals and identifiers) """
-    size = attr.ib(default=4)
+    size = attr.ib(default=2)
     pattern = attr.ib(factory=list)
     arguments = attr.ib(factory=dict)
     value = None
