@@ -136,6 +136,7 @@ class MultipleArgumentsInstruction(SimpleInstruction):
 
 @attr.s
 class BitManipulationInstruction(MultipleArgumentsInstruction):
+    size = attr.ib(default=1)
     def emit_opcode(self, symbol_table=None):
         self.resolve_symbols(symbol_table)
         operand = 0
@@ -159,6 +160,7 @@ class BitManipulationInstruction(MultipleArgumentsInstruction):
 
 @attr.s
 class BitTestInstruction(BitManipulationInstruction):
+    size = attr.ib(default=2)
     def parse(self, matches, line=None, address=None):
         super().parse(matches, line, address)
         target_identifier = self.arguments.get('jump_target_identifier', None)
