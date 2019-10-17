@@ -7,7 +7,6 @@ L1_OUT  equ 1   ; PA1
 
 begin:
 
-    ldi rxh portb
     btjs SW0, turn_l1_on, portb
 
 turn_l1_off:

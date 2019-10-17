@@ -9,7 +9,6 @@ L3_OUT  equ 3   ; PA3
 
 begin:
 
-    ldi rxh portb
     btjs SW0, turn_l3_on, portb
 
     btjc SW1, turn_l3_off, portb

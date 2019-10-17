@@ -16,7 +16,6 @@ mainloop_begin:
 ; L1
 L1_begin:
 
-    ldi rxh portb
     btjs SW0, turn_l1_on, portb
 
 turn_l1_off:
@@ -32,7 +31,6 @@ L1_end:
 ; L2
 L2_begin:
 
-    ldi rxh portb
     btjc SW0, turn_l2_off, portb
     btjc SW2, turn_l2_off, portb
     jmp pc, turn_l2_on
@@ -50,7 +48,6 @@ L2_end:
 ; L3
 L3_begin:
 
-    ldi rxh portb
     btjs SW0, turn_l3_on, portb
 
     btjc SW1, turn_l3_off, portb

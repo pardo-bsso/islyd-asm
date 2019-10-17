@@ -8,7 +8,6 @@ L2_OUT  equ 2   ; PA2
 
 begin:
 
-    ldi rxh portb
     btjc SW0, turn_l2_off, portb
     btjc SW2, turn_l2_off, portb
     jmp pc, turn_l2_on
