@@ -210,7 +210,7 @@ class LABEL(SimpleInstruction):
 
     def parse(self, matches, line=None, address=None):
         identifier = matches.group('label')
-        label = Symbol(identifier=identifier, value=self.address, address=self.address)
+        label = Symbol(identifier=identifier, value=hex(self.address), address=self.address)
         self.provided_symbols = [label]
         return self
 
